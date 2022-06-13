@@ -6,7 +6,7 @@ from basket_tracking.domain.entities.player import Player
 
 
 @dataclass
-class Frame:
+class Scene:
     """Class for keeping track of elements in a frame."""
 
     players: List[Player]
