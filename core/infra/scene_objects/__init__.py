@@ -1,1 +1,1 @@
-from core.infra.scene_objects.body import Body
+# from core.infra.scene_objects.body import Body
