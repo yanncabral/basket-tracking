@@ -21,9 +21,3 @@ class Body:
                 bottom_right=Offset(x=bottom_right_x,y=bottom_right_y)
             )
         )
-
-    def to_tuple(self):
-        return self.corners.to_tuple()
-
-    def to_polygon(self):
-        return Polygon(self.to_tuple())
