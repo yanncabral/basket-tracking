@@ -5,7 +5,7 @@ from typing import Iterable
 from core.domain.entities.scene import Scene
 
 
-class GetFramesFromVideo(ABC):
+class GetScenesFromVideo(ABC):
     
     @abstractmethod
     def getScenesFromVideo(self, video_path: str) -> Iterable[Scene]:
