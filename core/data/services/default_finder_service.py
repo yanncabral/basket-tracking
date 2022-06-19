@@ -10,9 +10,11 @@ from numpy.typing import ArrayLike
 from detectron2.utils.logger import setup_logger
 
 from core.domain.entities.ball import Ball
+from core.domain.entities.court import Court
 from core.domain.entities.player import Player
 from core.domain.services.finder_service import FinderService
 from core.infra.scene_objects.corners import Corners
+from core.infra.scene_objects.offset import Offset
 
 setup_logger()
 
@@ -37,6 +39,17 @@ points_from_topdown = np.array([
 points_from_camera = np.array(sorted([[16, 752], [1903, 716], [227, 477], [1641, 456]]))
 
 class DefaultFinderService(FinderService):
+
+    def findCourt(self, frame: ArrayLike) -> Optional[Court]:
+        # TODO: Find the court in any frame 
+        top_left = Offset(x=50, y=1454)
+        top_right = Offset(x=474, y=904)
+        bottom_left = Offset(x=3252, y=884)
+        bottom_right = Offset(x=3806, y=1432)
+        corners = Corners(top_left=top_left, top_right=top_right, bottom_left=bottom_left, bottom_right=bottom_right)
+        court = Court(corners=corners)
+        return court
+        
 
     def findBall(self, frame: ArrayLike) -> Optional[Ball]:
         original_frame = frame
@@ -66,7 +79,7 @@ class DefaultFinderService(FinderService):
                 moments = cv2.moments(contour)
                 center_x = int(moments['m10'] / moments['m00'])
                 center_y = int(moments['m01'] / moments['m00'])
-                result = Ball((center_x, center_y))
+                result = Ball(position=Offset(x=center_x, y=center_y))
                 break
 
         return result
@@ -119,7 +132,7 @@ class DefaultFinderService(FinderService):
 
         cfg.merge_from_file(model_zoo.get_config_file("COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml"))
 
-        cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5  # set threshold for this model
+        cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.3  # set threshold for this model
         cfg.MODEL.WEIGHTS = "detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl"
         cfg.MODEL.DEVICE = 'cpu'
         predictor = DefaultPredictor(cfg)

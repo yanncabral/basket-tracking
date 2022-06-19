@@ -3,6 +3,7 @@ import numpy as np
 from numpy.typing import ArrayLike
 from core.domain.services.image_service import ImageService
 from core.infra.scene_objects.corners import Corners
+from core.infra.scene_objects.offset import Offset
 
 
 class DefaultImageService(ImageService):
@@ -13,6 +14,22 @@ class DefaultImageService(ImageService):
         bottom_right = region_of_interest.bottom_right
         cv2.rectangle(mask, top_left.to_tuple(), bottom_right.to_tuple(), 255, -1)
         masked = cv2.bitwise_and(frame, frame, mask=mask)
-        
+
         return masked
         
+    def drawCircleInFrame(self, frame: ArrayLike, center: Offset) -> ArrayLike:
+        color = [0, 0, 255]
+        radius = 10
+        thickness = -1
+        result = frame.copy()
+        cv2.circle(result, center.to_tuple(), radius, color, thickness)
+
+        return result
+
+    def drawRectangleInFrame(self, frame: ArrayLike, corners: Corners) -> ArrayLike:
+        color = [255, 0, 0]   
+        thickness = 8
+        result = frame.copy()
+        cv2.rectangle(result, corners.top_left.to_tuple(), corners.bottom_right.to_tuple(), color, thickness)
+
+        return result
