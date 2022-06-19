@@ -1,9 +1,10 @@
 
 from abc import ABC, abstractmethod
 from typing import List, Optional
-from basket_tracking.domain.entities.ball import Ball
-from basket_tracking.domain.entities.player import Player
 from numpy.typing import ArrayLike
+
+from core.domain.entities.ball import Ball
+from core.domain.entities.player import Player
 
 
 class FinderService(ABC):

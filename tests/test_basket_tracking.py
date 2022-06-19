@@ -1,4 +1,4 @@
-from basket_tracking import __version__
+from core import __version__
 
 
 def test_version():

@@ -4,13 +4,15 @@ import numpy as np
 import imutils
 
 from typing import List, Optional
-from basket_tracking.domain.entities.ball import Ball
-from basket_tracking.domain.entities.player import Player
-from basket_tracking.domain.services.finder_service import FinderService
 from numpy.typing import ArrayLike
 
 
 from detectron2.utils.logger import setup_logger
+
+from core.domain.entities.ball import Ball
+from core.domain.entities.player import Player
+from core.domain.services.finder_service import FinderService
+
 setup_logger()
 
 

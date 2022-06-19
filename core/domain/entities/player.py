@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from basket_tracking.domain.entities.entity import Entity
+
+from core.domain.entities.entity import Entity
 
 
 @dataclass

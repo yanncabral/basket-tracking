@@ -1,8 +1,6 @@
 from dataclasses import dataclass
 from typing import List
-from basket_tracking.domain.entities.ball import Ball
-
-from basket_tracking.domain.entities.player import Player
+from entities import Player, Ball
 
 
 @dataclass

@@ -2,7 +2,7 @@
 from abc import ABC, abstractmethod
 from typing import Iterable
 
-from basket_tracking.domain.entities.scene import Frame, Scene
+from core.domain.entities.scene import Scene
 
 
 class GetFramesFromVideo(ABC):
