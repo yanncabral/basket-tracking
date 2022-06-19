@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import Tuple
+from shapely.geometry import Point, Polygon
 
 from core.infra.scene_objects.offset import Offset
 
@@ -22,3 +23,9 @@ class Corners:
             bottom_left=Offset(x=top_left_x, y=bottom_right_y),
             bottom_right=Offset(x=bottom_right_x, y=bottom_right_y)
         )
+
+    def to_polygon(self):
+        return Polygon(self.to_tuple())
+
+    def is_point_inside(self, point: Offset) -> bool:
+        return Point(point.x, point.y).within(self.to_polygon())
