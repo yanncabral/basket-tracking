@@ -12,6 +12,7 @@ from detectron2.utils.logger import setup_logger
 from core.domain.entities.ball import Ball
 from core.domain.entities.player import Player
 from core.domain.services.finder_service import FinderService
+from core.infra.scene_objects.corners import Corners
 
 setup_logger()
 
@@ -37,7 +38,7 @@ points_from_camera = np.array(sorted([[16, 752], [1903, 716], [227, 477], [1641,
 
 class DefaultFinderService(FinderService):
 
-    def findBallFromFrame(self, frame: ArrayLike) -> Optional[Ball]:
+    def findBall(self, frame: ArrayLike) -> Optional[Ball]:
         original_frame = frame
         frame = np.array(ImageEnhance.Contrast(Image.fromarray(original_frame[:,:,::-1])).enhance(0.5))[:, :, ::-1]
 
@@ -126,16 +127,48 @@ class DefaultFinderService(FinderService):
         players_output = predictor(frame)
         instances = players_output["instances"]
         pred_boxes = instances.get("pred_boxes")
-        # pred_classes = instances.get("pred_classes")
-        
+        pred_classes = instances.get("pred_classes")
 
         h, status = cv2.findHomography(points_from_camera, points_from_topdown)
-        points = self._apply_homography(h, pred_boxes)
 
-        players = [ 
-            Player(name="player1", x=x + w / 2, y=y + h)
-            for point in points 
-            for x, y, w, h in point
-        ]
+        players = []
+
+        for box, predicted_class in zip(pred_boxes, pred_classes):
+            if predicted_class == 0: # 0 is an human
+                x1 = int(box[0]) # coordenada x do top left
+                y1 = int(box[1]) # coordenada y do top left
+                x2 = int(box[2]) # coordenada x do bottom right
+                y2 = int(box[3]) # coordenada y do bottom right
+
+                corners = Corners.from_rectangle(x1, y1, x2, y2)
+
+                player = Player.from_corners(corners=corners, name=f"Player {len(players)}")
+
+                players.append(player)
+
+                
+                # xc = x1 + int((x2 - x1)/2)
+                # player_pos1 = (xc - 1, y2)
+                # player_pos2 = (xc + 1, y2 + 1)
+
+                # player_posx = np.array([xc])
+                # player_posy = np.array([y2])
+
+                # player_pos = np.array([player_posx, player_posy])
+                # new_player_pos = self._apply_homography(h, player_pos)
+
+                # player_to_append = Player(corners=Corners(), position=Position(int(new_player_pos[0][0]), int(new_player_pos[1][0])))
+                # players.apppend(player_to_append)
+
+                # # cria o objeto player
+                # # pega um metodo que retorne o pezinho dele
+                # # passa o pezinho dele
+                # players.append(
+                #     # Player(
+                #     #     name=f"player-{str(len(players))}",
+                #     #     position=tuple(float(i[0]) for i in new_player_pos[:2])
+                #     #     # position=tuple(new_player_pos[:2])
+                #     # )
+                # )
 
         return players
