@@ -1,3 +1,4 @@
+from pathlib import Path
 import cv2
 
 from typing import Iterable
@@ -11,8 +12,8 @@ _finder_service = DefaultFinderService()
 
 class DefaultVideoService(VideoService):
 
-    def getScenesFromVideo(self: "DefaultVideoService", video_path: str) -> Iterable[Scene]:
-        cap = cv2.VideoCapture(video_path)
+    def getScenesFromVideo(self: "DefaultVideoService", video_path: Path) -> Iterable[Scene]:
+        cap = cv2.VideoCapture(str(video_path))
 
         while cap.isOpened():
             ret, frame = cap.read()
