@@ -1,1 +1,2 @@
-from core.data.services.finder_service import FinderService
+from core.data.services.finder_service import DefaultFinderService
+from core.data.services.video_service import DefaultVideoService

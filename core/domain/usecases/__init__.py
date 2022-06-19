@@ -1,1 +1,1 @@
-from get_frames_from_video import GetFramesFromVideo
+from .get_scenes_from_video import GetScenesFromVideo
