@@ -1,9 +1,14 @@
 from dataclasses import dataclass
 
+from numpy.typing import ArrayLike
+
 from core.domain.entities.entity import Entity
 from core.infra.scene_objects.body import Body
 from core.infra.scene_objects.corners import Corners
 from core.infra.scene_objects.offset import Offset
+from core.data.services.default_image_service import DefaultImageService as ImageService
+
+_image_service = ImageService()
 
 
 @dataclass
@@ -27,3 +32,6 @@ class Player(Entity, Body):
         x_center = x_left + (x_right - x_left) / 2
         
         return Offset(x=x_center, y=y)
+
+    def draw(self, frame: ArrayLike) -> ArrayLike:
+        return _image_service.drawRectangleInFrame(frame, self.corners)
