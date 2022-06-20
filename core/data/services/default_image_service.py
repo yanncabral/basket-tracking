@@ -22,7 +22,7 @@ class DefaultImageService(ImageService):
         radius = 10
         thickness = -1
         result = frame.copy()
-        cv2.circle(result, center.to_tuple(), radius, color, thickness)
+        cv2.circle(result, list(map(int, center.to_tuple())), radius, color, thickness)
 
         return result
 
@@ -30,6 +30,6 @@ class DefaultImageService(ImageService):
         color = [255, 0, 0]   
         thickness = 8
         result = frame.copy()
-        cv2.rectangle(result, corners.top_left.to_tuple(), corners.bottom_right.to_tuple(), color, thickness)
+        cv2.rectangle(result, list(map(int, corners.top_left.to_tuple())), list(map(int, corners.bottom_right.to_tuple())), color, thickness)
 
         return result

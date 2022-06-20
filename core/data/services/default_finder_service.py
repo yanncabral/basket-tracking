@@ -36,7 +36,7 @@ points_from_topdown = np.array([
       [752,  420]   # TOP RIGHT  (4 o'clock)
     ])  
 
-points_from_camera = np.array(sorted([[16, 752], [1903, 716], [227, 477], [1641, 456]]))
+points_from_camera_video = np.array(sorted([[50, 1454], [3806, 1432], [474, 904], [3252, 884]]))
 
 class DefaultFinderService(FinderService):
 
@@ -84,48 +84,6 @@ class DefaultFinderService(FinderService):
 
         return result
 
-    def _apply_homography(self, H, pts) :
-        """
-        Apply a specified homography H to a set of 2D point coordinates
-
-        Parameters
-        ----------
-        H : 3x3 array
-            matrix describing the transformation
-
-        pts : 2xN array
-            2D coordinates of points to transform
-
-        Returns
-        -------
-        numpy.array (dtype=float)
-            2xN array containing the transformed points
-
-        """
-
-        #assert expected dimensions of input
-        assert(H.shape==(3,3))
-        assert(pts.shape[0]==2)
-        assert(pts.shape[1]>=1)
-
-        tpts = np.zeros(pts.shape)
-        for i in range(pts.shape[1]):
-            u = H[0][0]*pts[0][i] + H[0][1]*pts[1][i] + H[0][2]
-            v = H[1][0]*pts[0][i] + H[1][1]*pts[1][i] + H[1][2]
-            w = H[2][0]*pts[0][i] + H[2][1]*pts[1][i] + H[2][2]
-
-            x_prime = u/w
-            y_prime = v/w
-
-            tpts[0][i] = x_prime
-            tpts[1][i] = y_prime
-        
-        #make sure transformed pts are correct dimension
-        assert(tpts.shape[0]==2)
-        assert(tpts.shape[1]==pts.shape[1])
-
-        return tpts
-
     
     def findPlayers(self, frame: ArrayLike) -> Optional[List[Player]]:
         cfg = get_cfg()
@@ -142,7 +100,7 @@ class DefaultFinderService(FinderService):
         pred_boxes = instances.get("pred_boxes")
         pred_classes = instances.get("pred_classes")
 
-        h, status = cv2.findHomography(points_from_camera, points_from_topdown)
+        # h, status = cv2.findHomography(points_from_camera, points_from_topdown)
 
         players = []
 

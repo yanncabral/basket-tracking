@@ -34,4 +34,5 @@ class Player(Entity, Body):
         return Offset(x=x_center, y=y)
 
     def draw(self, frame: ArrayLike) -> ArrayLike:
-        return _image_service.drawRectangleInFrame(frame, self.corners)
+        return _image_service.drawCircleInFrame(frame=frame, center=self.position)
+        # return _image_service.drawRectangleInFrame(frame, self.corners)

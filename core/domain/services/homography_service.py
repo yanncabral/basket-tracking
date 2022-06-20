@@ -6,5 +6,5 @@ from core.infra.scene_objects.corners import Corners
 
 class HomographyService(ABC):
 
-    def applyHomography(scene: Scene, from_corners: Corners, to_corners) -> Scene:
+    def applyHomography(self, scene: Scene, from_corners: Corners, to_corners: Corners) -> Scene:
         pass

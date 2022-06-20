@@ -14,25 +14,20 @@ class Scene:
     players: List[Player]
     ball: Ball
     court: Court
-    frame: ArrayLike
     
-    def draw_players(self, frame: Optional[ArrayLike] = None) -> ArrayLike:
-        if frame is None:
-            frame = self.frame.copy()
+    def draw_players(self, frame: ArrayLike) -> ArrayLike:
         players_inside_court = (player for player in self.players if self.court.corners.is_point_inside(player.position))
         for player in players_inside_court:
+        # for player in self.players:
             frame = player.draw(frame)
 
         return frame
 
-    def draw_ball(self, frame: Optional[ArrayLike] = None) -> ArrayLike:
-        if frame is None:
-            frame = self.frame.copy()
-
+    def draw_ball(self, frame: ArrayLike) -> ArrayLike:
         return self.ball.draw(frame)
 
-    def draw_frame(self) -> ArrayLike:
-        frame = self.draw_players()
+    def draw_frame(self, frame: ArrayLike) -> ArrayLike:
+        frame = self.draw_players(frame=frame)
         frame = self.draw_ball(frame=frame)
         
         return frame
