@@ -29,3 +29,11 @@ class Corners:
 
     def is_point_inside(self, point: Offset) -> bool:
         return Point(point.x, point.y).within(self.to_polygon())
+
+    @property
+    def width(self) -> float:
+        return self.bottom_right.x - self.top_left.x
+
+    @property
+    def height(self) -> float:
+        return self.bottom_right.y - self.top_left.y
