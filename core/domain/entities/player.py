@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Literal, Union
 
 from numpy.typing import ArrayLike
 
@@ -39,3 +40,12 @@ class Player(Entity, Body):
             return _image_service.drawCircleInFrame(frame=frame, center=self.position, color=color)
         else:
             return _image_service.drawRectangleInFrame(frame=frame, corners=self.corners, color=color)
+
+    
+    def get_upper_body(self) -> Corners:
+        return Corners(
+            bottom_left=Offset(x=self.corners.bottom_left.x + self.corners.width / 4, y=self.corners.bottom_left.y - self.corners.height / 4),
+            bottom_right=Offset(x=self.corners.bottom_right.x - self.corners.width / 4, y=self.corners.bottom_right.y - self.corners.height / 4),
+            top_right=Offset(x=self.corners.top_right.x - self.corners.width / 4, y=self.corners.top_right.y + self.corners.height / 8),
+            top_left=Offset(x=self.corners.top_left.x + self.corners.width / 4, y=self.corners.top_left.y + self.corners.height / 8),
+        )
