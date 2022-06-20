@@ -31,3 +31,7 @@ class Scene:
         frame = self.draw_ball(frame=frame)
         
         return frame
+
+    @property
+    def players_inside_court(self) -> Iterable[Player]:
+        return (player for player in self.players if self.court.corners.is_point_inside(player.position))
