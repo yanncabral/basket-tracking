@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import Iterable, List, Literal, Union
 
 from numpy.typing import ArrayLike
 from core.domain.entities.court import Court
@@ -15,11 +15,9 @@ class Scene:
     ball: Ball
     court: Court
     
-    def draw_players(self, frame: ArrayLike) -> ArrayLike:
-        players_inside_court = (player for player in self.players if self.court.corners.is_point_inside(player.position))
-        for player in players_inside_court:
-        # for player in self.players:
-            frame = player.draw(frame)
+    def draw_players(self, frame: ArrayLike, type: Union[Literal['circle'], Literal['rectangle']] = 'circle') -> ArrayLike:
+        for player in self.players_inside_court:
+            frame = player.draw(frame=frame, type=type)
 
         return frame
 
