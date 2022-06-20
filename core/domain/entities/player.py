@@ -33,6 +33,9 @@ class Player(Entity, Body):
         
         return Offset(x=x_center, y=y)
 
-    def draw(self, frame: ArrayLike) -> ArrayLike:
-        return _image_service.drawCircleInFrame(frame=frame, center=self.position)
-        # return _image_service.drawRectangleInFrame(frame, self.corners)
+    def draw(self, frame: ArrayLike, type: Union[Literal['circle'], Literal['rectangle']] = 'circle') -> ArrayLike:
+        color = (255, 0, 0)
+        if type == 'circle':
+            return _image_service.drawCircleInFrame(frame=frame, center=self.position, color=color)
+        else:
+            return _image_service.drawRectangleInFrame(frame=frame, corners=self.corners, color=color)
