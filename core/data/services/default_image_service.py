@@ -1,3 +1,4 @@
+from typing import Tuple
 import cv2
 import numpy as np
 from numpy.typing import ArrayLike
@@ -17,8 +18,7 @@ class DefaultImageService(ImageService):
 
         return masked
         
-    def drawCircleInFrame(self, frame: ArrayLike, center: Offset) -> ArrayLike:
-        color = [0, 0, 255]
+    def drawCircleInFrame(self, frame: ArrayLike, center: Offset, color: Tuple[int, int, int] = (0, 0, 255)) -> ArrayLike:
         radius = 10
         thickness = -1
         result = frame.copy()
@@ -26,8 +26,7 @@ class DefaultImageService(ImageService):
 
         return result
 
-    def drawRectangleInFrame(self, frame: ArrayLike, corners: Corners) -> ArrayLike:
-        color = [255, 0, 0]   
+    def drawRectangleInFrame(self, frame: ArrayLike, corners: Corners, color: Tuple[int, int, int] = (255, 0, 0)) -> ArrayLike:
         thickness = 8
         result = frame.copy()
         cv2.rectangle(result, list(map(int, corners.top_left.to_tuple())), list(map(int, corners.bottom_right.to_tuple())), color, thickness)
