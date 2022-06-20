@@ -37,3 +37,17 @@ class Corners:
     @property
     def height(self) -> float:
         return self.bottom_right.y - self.top_left.y
+
+    def copy_with(
+        self,
+        top_left: Optional[Offset] = None,
+        top_right: Optional[Offset] = None,
+        bottom_left: Optional[Offset] = None,
+        bottom_right: Optional[Offset] = None,
+    ) -> "Corners":
+        return Corners(
+            bottom_left=bottom_left or self.bottom_left,
+            bottom_right=bottom_right or self.bottom_right,
+            top_left=top_left or self.top_left,
+            top_right=top_right or self.top_right,
+        )
