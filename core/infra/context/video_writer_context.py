@@ -33,7 +33,8 @@ class VideoWriterContext:
         return self.writer
      
     def __exit__(self, exc_type, exc_value, exc_traceback):
-        self.writer.close()
+        if self.writer:
+            self.writer.close()
 
 
 # writer = None
