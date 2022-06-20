@@ -25,11 +25,11 @@ class DefaultVideoService(VideoService):
             if ret:
                 if region_of_interest is not None:
                     frame = _image_service.applyMaskFromCorners(frame, region_of_interest)
-                ball = _finder_service.findBall(frame)
                 players = _finder_service.findPlayers(frame)
                 court = _finder_service.findCourt(frame)
+                ball = _finder_service.findBall(frame)
 
-                if ball is not None and players is not None:
+                if ball and players:
                     # Do not yield if no ball are found
                     yield Scene(players=players, ball=ball, court=court), frame
 
