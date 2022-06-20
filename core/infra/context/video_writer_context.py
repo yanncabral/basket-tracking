@@ -21,7 +21,8 @@ class VideoWriter:
         
 
     def close(self):
-        self._writer.release()
+        if self._writer:
+            self._writer.release()
 
 
 
@@ -33,5 +34,4 @@ class VideoWriterContext:
         return self.writer
      
     def __exit__(self, exc_type, exc_value, exc_traceback):
-        if self.writer:
-            self.writer.close()
+        self.writer.close()
