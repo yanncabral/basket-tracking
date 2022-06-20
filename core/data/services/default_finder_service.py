@@ -29,15 +29,6 @@ from detectron2.data import MetadataCatalog, DatasetCatalog
 _ballColorLower = (5, 65, 115) 
 _ballColorUpper = (11, 105, 155)
 
-points_from_topdown = np.array([
-      [40,420],  # RIGHT BOTTOM
-      [40,42],  # LEFT BOTTOM
-      [752, 42],     # TOP LEFT (7 o'clock)
-      [752,  420]   # TOP RIGHT  (4 o'clock)
-    ])  
-
-points_from_camera_video = np.array(sorted([[50, 1454], [3806, 1432], [474, 904], [3252, 884]]))
-
 class DefaultFinderService(FinderService):
 
     def findCourt(self, frame: ArrayLike) -> Optional[Court]:
@@ -116,30 +107,5 @@ class DefaultFinderService(FinderService):
                 player = Player.from_corners(corners=corners, name=f"Player {len(players)}")
 
                 players.append(player)
-
-                
-                # xc = x1 + int((x2 - x1)/2)
-                # player_pos1 = (xc - 1, y2)
-                # player_pos2 = (xc + 1, y2 + 1)
-
-                # player_posx = np.array([xc])
-                # player_posy = np.array([y2])
-
-                # player_pos = np.array([player_posx, player_posy])
-                # new_player_pos = self._apply_homography(h, player_pos)
-
-                # player_to_append = Player(corners=Corners(), position=Position(int(new_player_pos[0][0]), int(new_player_pos[1][0])))
-                # players.apppend(player_to_append)
-
-                # # cria o objeto player
-                # # pega um metodo que retorne o pezinho dele
-                # # passa o pezinho dele
-                # players.append(
-                #     # Player(
-                #     #     name=f"player-{str(len(players))}",
-                #     #     position=tuple(float(i[0]) for i in new_player_pos[:2])
-                #     #     # position=tuple(new_player_pos[:2])
-                #     # )
-                # )
 
         return players
